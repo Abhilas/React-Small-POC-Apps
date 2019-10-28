@@ -13,7 +13,7 @@ import Reducer from './Songs/Reducers';
 import Songs from './Songs/Songs';
 
 // For Blog folder
-import BlogReducer from './Blog/reducers';
+import BlogReducer from './Blog/Reducers';
 import Blog from './Blog/Blog';
 import Thunk from 'redux-thunk';
 
