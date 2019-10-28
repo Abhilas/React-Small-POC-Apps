@@ -1,0 +1,326 @@
+                                            Redux-Form
+                                            ----------
+
+=> Redux form is a library that deals with how a form interact within Redux.
+
+=> Without using the Redux Form we used to interact with the form in the below way.
+
+    => Create Class based Component, with the form element.
+    => Import the 'connect' method from 'react-redux'
+    => Create mapStateToProps & mapDispatchToProps and pass those as arguments to the Connect.
+    => If there is any event handler then we have to dispatch an action that will eventually call the Reducer and update the state.
+    => Once the state is updated that will re-render the Component.
+    => For validation we have to pass the Component to a HOC.
+
+    So the advantages of using Redux Form is that it takes care of these things automatically apart from Validation and Class creation.
+
+To use Redux Form we have to install 'Redux-Form' using 'npm install redux-form@8.1.0' we will be using this specific version as 8.2.0 is having some bugs.
+
+*** Its better to use a class Component when working with Forms.
+
+After that to use it in specific Component we need to import { Field, reduxForm } from 'redux-form'.
+    => Field is basically an Element, so the naming convension is in Pascal form.
+    => reduxForm is basically a function, so the naming convension is in Camel Case.
+
+First Part:
+-----------
+
+=> Now when we installed redux-form it gives us a Reducer by default, this reducer will be used by redux-form to change the value in the state.
+
+=> We just need to use that reducer.
+
+=> To do so in the Combine Reducer file we need to import { reducer as formReducer } from 'redux-form' 
+    'formReducer' can be any thing.
+
+import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
+import AuthReducer from './AuthReducer';
+
+export default combineReducers({
+    Auth: AuthReducer,
+    form: formReducer
+});
+
+=> After the import has been done we need to use that inside the combineReducers function with a key 'form'.
+
+******* Note The 'form' key name should not be changed else it will not work and we will not be able to type in the textbox.
+
+Second Part:
+---------------
+
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
+
+class StreamCreate extends React.Component {
+    render() {
+        console.log(this.props); // Will list down all the props that has been added to the Component from redux form.
+        return (
+            <div>StreamCreate !!!</div>
+        )
+    }
+}
+
+export default reduxForm({
+    form: 'StreamCreate'
+})(StreamCreate);
+
+=> Just like connect takes some parameter, reduxForm also takes some parameter and that is an Object.
+=> This Object has many keys but we have to pass a 'form' key.
+=> So this key's value can be any thing relevant to the Component.
+=> It basically works as an unique identifier for the form, basing on this 'form' key redux-form is going to store the value in the redux state.
+
+
+Third Part:
+------------
+
+*** From here on we will only concentrate on the class component.
+
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
+
+class StreamCreate extends React.Component {
+    renderElement(formProps) {
+        console.log(formProps);
+        return <input />
+    }
+
+    render() {
+        return (
+            <form>
+                <Field name='title' component={this.renderElement} />
+                <Field name='description' component={this.renderElement} />
+            </form>
+        )
+    }
+}
+
+export default reduxForm({
+    form: 'StreamCreate'
+})(StreamCreate);
+
+=> Now we create a form element and added 2 Field element, since we need to show a 'title' & 'description' field on the screen.
+
+=> Field is nothing but elements that we need to show on the page.
+=> It takes some props
+    => 'name': it is basically for what purpose we are using the Element.
+        Here we are using it for 'title' & 'description'.
+
+    => 'component': Since Field element doesn't know what field we are going to display on the screen,      it takes the help of the 'component' props.
+
+        This props is basically used to pass a 'component' or a 'function' for it to render on the screen, here we are passing a function.
+
+        *** Note that the input returned from the function is not controlled,to make it controlled when we call a function in 'component' redux-form will automatically pass some argument to the function.
+
+        In this case 'formProps' is basically the argument passed to the function, so once we log that we will get 2 input object on the console for 2 Field elements.
+
+        Each input object will have 2 keys 'input' & 'meta'. Meta is static for all the Field but input can change basing on what element we are returning. If we are returning select then the keys will be select & meta.        
+
+=> The resultant of the above code will display 2 textbox on the screen.
+
+*** One thing to note here is, since we are using a textbox in React we need to specify the 'value' & 'onChange' event as well.
+
+
+Fourth Part:
+-----------
+
+=> Each input key will have its own properties like name, event handlers & value.
+=> To make it controlled we have to hook up the event handlers and value from the passed arguments to the input element.
+
+class StreamCreate extends React.Component {
+    renderElement(formProps) {
+        console.log(formProps);
+        return (
+            <input
+                onChange={formProps.input.onChange}
+                value={formProps.input.value} />
+        );
+    }
+    render() {
+        return (
+            <form>
+                <Field name='title' component={this.renderElement} />
+                <Field name='description' component={this.renderElement} />
+            </form>
+        )
+    }
+}
+
+Fifth Part:
+-----------
+
+=> Now how to handle the form submission.
+=> For that redux-form provides a method called as 'handleSubmit'.
+=> This 'handleSubmit' function takes another function as an argument & that function can be a custom function as well.
+
+=> When 'handleSubmit' calls the custom function, it automatically passes an argument to that function.
+    That argument is nothing but an object with the field name as key and the field value as value.
+
+=> Event.preventDefault() will be automatically called by 'handleSubmit'.
+
+class StreamCreate extends React.Component {
+    renderElement(formProps) {
+        return (
+            <div className="field">
+                <label>{formProps.label}</label>
+                <input {...formProps.input} />
+            </div>
+        )
+    }
+
+    onFormSubmit = (formValue) => {
+        console.log(formValue); 
+        // Will log the value entered in the fields
+        /*
+            If we have entered 
+
+            'Abhilas' in the Title field &
+            'Mohanty' in the Description field
+
+            Then this console will log 
+            {title: "abhilas", description: "Mohanty"}
+
+        */ 
+    }
+
+    render() {
+        // Passing the custom function to the 'handleSubmit' function.
+        return (
+            <form className="ui form error" onSubmit={this.props.handleSubmit(this.onFormSubmit)}> 
+                <Field
+                    name='title'
+                    component={this.renderElement}
+                    label="Enter Title" />
+                <Field
+                    name='description'
+                    component={this.renderElement}
+                    label="Enter Description" />
+                <button className="ui button primary">Create</button>
+            </form>
+        )
+    }
+}
+
+Sixth Part (Form Validation):
+-----------------------------
+
+=> For form validation redux-form calls a function 'validate' on each user interaction with the form.
+
+=> This 'validate' function takes the formValues and do a validation.
+
+=> For that we have to write a validate (name should be same) function outside of the component before the export.
+
+=> The principle is that if the form the valid then an empty object should be sent, that will intimate redux-form that nothing is wrong in this     form and we can proceed with the next step.
+
+    If there is any error then this function should return an object with the field name (i.e. title & description in our case) and the error message.
+
+    error = {
+        title: 'Title should not be empty',
+        description: 'Description should not be empty'
+    }
+
+    *** Note that the key for the above object should be the same as the name of the Field element.
+        <Field name='title' component={this.renderElement} label="Enter Title" />
+        <Field name='description' component={this.renderElement} label="Enter Description" />
+
+    If the returned object is empty then Redux-for will go ahead and do the next task, if the object is not empty then Redux-form will eventually re-render the component with the errors on the screen.
+
+// For validation of Form, function name should be 'validate' and the name should not change
+const validate = (formValues) => {
+    const errors = {};
+    if (!formValues.title) {
+        errors.title = "You must enter a Title";
+        // key 'title' in errors object is same as Field name
+    }
+
+    if (!formValues.description) {
+        errors.description = "You must enter a Description";
+        // key 'description' in errors object is same as Field name
+    }
+
+    return errors;
+}
+
+=> Now once the validate function is created we need to hook it to the component.
+
+=> To do that we need to pass the reference to the export statement.
+
+export default reduxForm({
+    form: 'StreamCreate',
+    validate: validate
+})(StreamCreate);
+
+*** Note the validate key should not be changed.
+
+If we can use a bit of ES6 then we can refactor that to validate since the key & value names are the same.
+
+export default reduxForm({
+    form: 'StreamCreate',
+    validate
+})(StreamCreate);
+
+
+Seventh Part (Showing Error Message):
+-------------------------------------
+
+=> Now that we have got the errors we need to display it on the screen.
+
+=> For that we need to get understand the basics of how to render the errors.
+    => Once Redux-form figure out that the returned object is not empty, it then compares the form Field name property value with that of the       error object keys to actually match for which field the error need to be displyed.
+
+    => Once the Field name and the error object key matches it makes the error message available to that Field component by passing the error       to the custom function that we have passed to the 'component' prop in the Field.
+
+    => In our case the error will be a part of the 'formProps' passed to the 'renderElement' function.
+
+    => To access the error we need to reference the 'meta' key property passed for each field object.
+
+renderElement(formProps) {
+    return (
+        <div className="field">
+            <label>{formProps.label}</label>
+            <input {...formProps.input} />
+            <div className="field error">
+                <label className="red">{formProps.meta.error}</label> // The error is contained in the meta property of formProps
+            </div>
+        </div>
+    )
+}
+
+
+Eigth Part (Refactor):
+---------------------
+
+=> Now we are able to successfully show the error message on the screen, but there is a small issue here and that is the error is always            visible on the screen.
+
+=> But we need to show the error on blur or on click of the submit button. To achieve that we have to use a property of the 'meta' key called       as 'touched'.
+
+=> This property is false on the intial load until we focus an element, once we blur out from the focussed element, this property value will        become true.
+
+// This is a new utility function
+renderError = (errorInfo) => {
+    if (errorInfo.touched && errorInfo.error) {
+        return (
+            <div className="ui error message">
+                <div className="header">
+                    {errorInfo.error}
+                </div>
+            </div>
+        )
+    }
+}
+
+renderElement = (formProps) => {
+    const updatedClassName = `field ${formProps.meta.touched && formProps.meta.error ? 'error' : ''}`;
+    return (
+        <div className={updatedClassName}>
+            <label>{formProps.label}</label>
+            <input {...formProps.input} autoComplete="off" />
+            {this.renderError(formProps.meta)}
+        </div>
+    );
+}
+
+=> Converted the functions to arrow function as there were some reference error to this.
+
+
+
+

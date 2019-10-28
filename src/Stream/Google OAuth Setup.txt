@@ -1,0 +1,16 @@
+For Authentication we are using Google OAuth flow.
+
+Client ID for 'StreamingVideos' is: 159037992567-c04of3mr7qijssdds60tocbk18oqt740.apps.googleusercontent.com
+
+To use API we have to install the google API, since it is not permitted in company laptop we will just add the below script tag in the 'index.html' page.
+
+<script src="https://apis.google.com/js/api.js"></script>
+
+
+To access Google API we have to use 'gapi', just type it in browser console and it will give an Object.
+
+Reference for the methods used:
+-------------------------------
+
+1. https://developers.google.com/identity/sign-in/web/reference#authentication
+
