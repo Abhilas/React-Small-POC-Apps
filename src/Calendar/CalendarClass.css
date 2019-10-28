@@ -1,0 +1,31 @@
+.cal-header th:first-child,
+.cal-header th:last-child {
+    width: 40px;
+    cursor: pointer !important;
+}
+
+.table {
+    width: auto !important;
+}
+
+.today {
+    background-color: #FF7F50;
+    color: white;
+    font-weight: bold;
+}
+
+.cell {
+    cursor: pointer;
+    text-align: center !important;
+}
+
+.cell:hover {
+    background-color: #FFDEAD;
+    color: black;
+}
+
+table thead tr:nth-child(2) th,
+table tbody tr td:first-child,
+table tbody tr td:last-child {
+    background-color: #E6E6FA;
+}
