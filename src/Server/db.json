@@ -1,0 +1,26 @@
+{
+  "streams": [
+    {
+      "title": "My Stream 1",
+      "description": "This is a nice stream 1 !!!!",
+      "id": 1
+    },
+    {
+      "title": "Stream With User Id 1",
+      "description": "Edited with a PATCH request!!!",
+      "userId": "105115664505594498055",
+      "id": 2
+    },
+    {
+      "title": "Navigate Programatically",
+      "description": "Navigated Problematically to the list page !!!",
+      "userId": "105115664505594498055",
+      "id": 3
+    },
+    {
+      "title": "Stream with Form reuse",
+      "description": "Form Reused Nicely !!! and Edited",
+      "id": 4
+    }
+  ]
+}

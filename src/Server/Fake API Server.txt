@@ -1,0 +1,9 @@
+For fake API server we will be using JSON Server.
+
+To install = npm install --save json-server
+
+We have moved it to a different folder so that it is more clear.
+
+Reference: https://www.npmjs.com/package/json-server
+
+=> Create a db.json file with some data
