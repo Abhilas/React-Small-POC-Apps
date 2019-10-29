@@ -23,8 +23,6 @@ Default Way:
 
 So, let’s start with creating ‘ContextOne.js’ file.
 
- 
-
 •	Let’s say we want to pass the color ‘blue’ to the child, so we create a context called ‘ContextOne’. 
 •	React.createContext() takes a default value, in our case its ‘blue’.
 •	Its not mandate to always specify a default value but it’s good to have.
@@ -40,8 +38,6 @@ Let’s create a new component called ‘child-1.js’
 •	This will basically get the context into the component.
 •	Now once we get the Context, to access it we have to use ‘this. context’, this should also be same.
 •	‘this. context’ try to fetch the context from the ‘contextType’ mentioned above.
-
- 
  
 •	‘contextType’ is static because it’s the es6 way of defining the same, but if we are not using es6 then we have to write something like
 
@@ -66,9 +62,7 @@ To use the Provider & Consumer way we must use the ‘Context-2.js’ file.
 
 •	Context can be provided from any of the Component and can be consumed by any of the Component as well.
 
-•	In the ‘child-3.js’ we need to Wrap the component ‘childFour’ around ‘ContextTwo’ so that the context value can be accessed by ‘childFour’, same as the way we use ‘connect’ in the Components where we need to access the store in Redux.
-
- 
+•	In the ‘child-3.js’ we need to Wrap the component ‘childFour’ around ‘ContextTwo’ so that the context value can be accessed by ‘childFour’, same as the way we use ‘connect’ in the Components where we need to access the store in Redux. 
 
 •	In line no 10 we see that there is a Provider. As discussed above each Context has a Provider as well as a Consumer. Provider is used to provide the Context value to the Consumers.
 •	<ContextTwo.Provider value=’Red’> tells that ‘ChildFour’ should be provided a value as ‘Red’.
@@ -76,9 +70,7 @@ To use the Provider & Consumer way we must use the ‘Context-2.js’ file.
 •	Here the ‘value’ attribute is needed, if it is not there then empty/undefined value will be passed to the ‘childFour’.
 •	We make the Context to change dynamically is by associating the ‘value’ attribute with a specific key of the state of that parent Component (in this case ‘childThree’), so if that key in the state changes, then it will automatically update the Context value and that will update the Consuming component as well (in this case ‘ChildFour’).
 
-The ‘childThree’ will look something like the below.
-
- 
+The ‘childThree’ will look something like the below. 
 
 •	So, if the value in the state changes in ‘componentDidMount’ it will automatically update the value in the ContextTwo.
 
@@ -89,8 +81,6 @@ Now the Context has provided the Updated value, the question now is how to acces
 •	The consumer is always used in the Components that consumes the Context data.
 
 •	To know more about that let’s look at ‘childFour’ that is going to Consume the Context data passed from ‘childThree’.
-
- 
 
 
 •	So, we have imported ‘ContextTwo’.
@@ -109,15 +99,9 @@ Handling Multiple Context:
 
 For handling multiple context let’s take ‘childThree’ as reference.
 
-•	For multiple Context we have used context-1.js file with a modification from Blue to White.
-
- 
+•	For multiple Context we have used context-1.js file with a modification from Blue to White. 
 
 •	For Context-2.js
-
- 
-
- 
 
 •	Here both the Context has been imported and ready to use.
 •	We can use the context in any order we want, but we have to wrap the component around the Context. 
@@ -125,8 +109,6 @@ For handling multiple context let’s take ‘childThree’ as reference.
 
 
 Let’s look at ‘childFour’ component.
-
- 
 
 •	We have to import both the Context.
 •	Using ‘ContextOne’ the Color of the text is changed.
