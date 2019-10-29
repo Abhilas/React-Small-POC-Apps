@@ -1,0 +1,35 @@
+.text-center {
+    text-align: center;
+}
+
+.dummy-text-color {
+    color: rgba(0,0,0,.4);
+}
+
+.margin-bottom-5{
+    margin-bottom: 5px !important;
+}
+
+.background-transparent {
+    background-color: transparent !important;
+}
+
+.task-label {
+    width: 60%;
+}
+
+.no-padding-left {
+    padding-left: 0 !important;
+}
+
+.fav-list .star.icon {
+    color: #fbbd08;
+}
+
+.inbox-list .star.icon:hover {
+    color: #fbbd08;
+}
+
+.color-red {
+    color: red;
+}
